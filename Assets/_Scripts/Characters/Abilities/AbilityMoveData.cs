@@ -5,11 +5,12 @@ using UnityEngine;
 public class AbilityMoveData : AbilityData
 {
     public override AbilityFlag Flag => AbilityFlag.Move;
-    public float speed;
+    public float moveSpeed = 10f;
+    public float rotateSpeed = 5f;
 
     public override Ability CreateAbility(Transform owner)
     {
-        return new AbilityMove(owner, speed);
+        return new AbilityMove(owner, moveSpeed, rotateSpeed);
     }
 }
 

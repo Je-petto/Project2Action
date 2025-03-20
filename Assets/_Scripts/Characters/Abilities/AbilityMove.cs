@@ -3,17 +3,21 @@ using UnityEngine;
 public class AbilityMove : Ability
 {
     public override AbilityData Data => Data as AbilityMoveData;
+    private float movespeed;
+    private float rotatespeed;
 
-    private float speed;
+
     float horz, vert;
     private Rigidbody rb;
     private Transform cameraTransform;
     private Vector3 camFoward, camRight;
     Vector3 movement;
 
-    public AbilityMove(Transform owner, float spd) : base(owner)
+    public AbilityMove(Transform owner, float movespd, float rotatespd) : base(owner)
     {
-        this.speed = spd;
+        
+        this.movespeed = movespd;
+        this.rotatespeed = rotatespd;
 
         rb = owner.GetComponentInChildren<Rigidbody>();
         if (rb == null)
@@ -36,6 +40,7 @@ public class AbilityMove : Ability
         base.Update();
 
         InputKeyboard();
+        Rotate();
         Movement();
 
     }
@@ -59,7 +64,15 @@ public class AbilityMove : Ability
 
     void Movement()
     {
-        rb.linearVelocity = Vector3.Lerp(rb.linearVelocity, movement * speed, Time.deltaTime * 10f);
+        rb.linearVelocity = Vector3.Lerp(rb.linearVelocity, movement * movespeed, Time.deltaTime * 10f);
     }
 
+    Quaternion targetRotation = Quaternion.identity;
+    void Rotate()
+    {
+        if (movement != Vector3.zero)
+            targetRotation = Quaternion.LookRotation(movement);
+
+        rb.rotation = Quaternion.Slerp(rb.rotation, targetRotation, rotatespeed * Time.deltaTime);
+    }
 }
