@@ -14,13 +14,21 @@ public enum AbilityFlag
     Attack = 1 << 3 // 1000
 }
 
+//지속성 여부
+public enum AbilityEffect
+{
+    INSTANT,
+    DURATION,
+    INFINITE,
+}
+
 // 데이터 담당
 // 1. Ability의 타입을 정한다
 // 2. Ability 타입에 맞게 생성한다 
 public abstract class AbilityData : ScriptableObject
 {
     public abstract AbilityFlag Flag { get; }
-    public abstract Ability CreateAbility( Transform owner );
+    public abstract Ability CreateAbility( CharacterControl owner );
 }
 
 // 행동 담당
@@ -31,9 +39,9 @@ public abstract class Ability
 {
     public abstract AbilityData Data { get; }
 
-    protected Transform owner;
+    protected CharacterControl owner;
 
-    public Ability(Transform ow) => this.owner = ow;
+    public Ability(CharacterControl owner) => this.owner = owner;
 
     // 어빌리티 활성
     public virtual void Activate() {}

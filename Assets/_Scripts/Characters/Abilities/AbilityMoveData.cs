@@ -8,7 +8,7 @@ public class AbilityMoveData : AbilityData
     public float moveSpeed = 10f;
     public float rotateSpeed = 5f;
 
-    public override Ability CreateAbility(Transform owner)
+    public override Ability CreateAbility(CharacterControl owner)
     {
         return new AbilityMove(owner, moveSpeed, rotateSpeed);
     }

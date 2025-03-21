@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using CustomInspector;
@@ -12,26 +11,33 @@ public class AbilityControl : MonoBehaviour
 
     [Space(10), ReadOnly] public AbilityFlag flags = AbilityFlag.None;
 
+    // 보유(잠재된) 중인 능력들(Abilities)
     [Space(10), SerializeField] List<AbilityData> datas = new List<AbilityData>();
 
-    //<Key 값, Value 값>
+    // <Key 값, Value 값>
+    // 사용할 수 있는 능력
     private readonly Dictionary<AbilityFlag, Ability> actives = new Dictionary<AbilityFlag, Ability>();
 
-    public void AddAbility(AbilityData d, bool immediate)
+    private void Update()
+    {
+        foreach( var a in actives)
+            a.Value.Update();
+    }
+
+    public void Add(AbilityData d)
     {
         if (datas.Contains(d) == true || d == null)
             return;
         
         datas.Add(d);
-        var ability = d.CreateAbility(transform);
+        var ability = d.CreateAbility(GetComponent<CharacterControl>());
 
         flags.Add(d.Flag, null);
 
-        if (immediate)
-           actives[d.Flag] = ability;
+        actives[d.Flag] = ability;
     }
 
-    public void RemoveAbility(AbilityData d)
+    public void Remove(AbilityData d)
     {
         if (datas.Contains(d) == false || d == null)
             return;
@@ -42,23 +48,15 @@ public class AbilityControl : MonoBehaviour
         flags.Remove(d.Flag, null);
         actives.Remove(d.Flag);
     }
-    
-    private void Update()
+
+    public void Trigger(AbilityFlag flag)
     {
-        foreach(var a in actives)
-            a.Value.Update();
+        foreach( var pair in actives)
+        {
+            if ((pair.Key & flag) == flag)
+                pair.Value.Activate();
+        }
     }
 
-
-    [HorizontalLine("TEMP CODE"), HideField] public bool _l0;
-//TEMP
-    public AbilityData testdata;
-    IEnumerator Start()
-    {
-        yield return new WaitForEndOfFrame();
-
-        AddAbility(testdata, true);
-    }
-//TEMP
 
 }
