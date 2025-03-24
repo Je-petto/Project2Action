@@ -9,7 +9,7 @@ public class CharacterControl : MonoBehaviour
     [HideInInspector]public AbilityControl ability;
 
     [ReadOnly]public bool isGrounded;
-    [ReadOnly]public Rigidbody rb;
+    [ReadOnly]public CharacterController cc;
 
     public List<AbilityData> initialAbilities;
     
@@ -18,7 +18,7 @@ public class CharacterControl : MonoBehaviour
         if (TryGetComponent(out ability) == false)
             Debug.LogWarning("CharacterControl ] AbilityControl 없음");
 
-        if (TryGetComponent(out rb) == false)
+        if (TryGetComponent(out cc) == false)
             Debug.LogWarning("CharacterControl ] Rigidbody 없음");
     }
 
@@ -34,13 +34,13 @@ public class CharacterControl : MonoBehaviour
     {
 
         if (Input.GetButtonDown("Jump"))
-            ability.Trigger(AbilityFlag.Jump);
+            ability.Activate(AbilityFlag.Jump);
     }
 
     void Start()
     {
         foreach( var dat in initialAbilities )
-            ability.Add(dat);
+            ability.Add(dat, true);
     }
 
 }

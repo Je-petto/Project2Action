@@ -37,17 +37,28 @@ public abstract class AbilityData : ScriptableObject
 // virtual (정의 - 선택)
 public abstract class Ability
 {
-    public abstract AbilityData Data { get; }
-
-    protected CharacterControl owner;
-
-    public Ability(CharacterControl owner) => this.owner = owner;
-
     // 어빌리티 활성
     public virtual void Activate() {}
     // 어빌리티 비활성
     public virtual void Deactivate() {}
     // 어빌리티 계속 업데이트
     public virtual void Update() {}
+    // 어빌리티 계속 FixedUpdate - 빠르게(물리 연산용)
+    public virtual void FixedUpdate() {}
+}
+
+
+public abstract class Ability<D> : Ability where D : AbilityData
+
+{
+    public D data;
+    protected CharacterControl owner;
+
+    public Ability(D data, CharacterControl owner)
+    {
+        this.data = data;
+        this.owner = owner;
+    }
+
     
 }
