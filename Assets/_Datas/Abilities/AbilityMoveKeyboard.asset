@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58b390be9ecf6f544b8248fddbdb0ab1, type: 3}
   m_Name: AbilityMoveKeyboard
   m_EditorClassIdentifier: 
-  movePerSec: 10
+  movePerSec: 5
   rotatePerSec: 1080

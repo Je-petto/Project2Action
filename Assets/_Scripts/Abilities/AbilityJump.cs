@@ -15,12 +15,16 @@ public class AbilityJump : Ability<AbilityJumpData>
 
         isjumping = true;
         elapsed = 0;
+
+        owner.animator?.SetTrigger("jumpUp");
         
     }
     public override void Deactivate()
     {
         isjumping = true;
         elapsed = 0;
+
+        owner.animator?.SetTrigger("jumpDown");
     }
 
     float elapsed;

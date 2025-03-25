@@ -8,8 +8,9 @@ public class CharacterControl : MonoBehaviour
 {
     [HideInInspector]public AbilityControl ability;
 
-    [ReadOnly]public bool isGrounded;
-    [ReadOnly]public CharacterController cc;
+    [ReadOnly] public bool isGrounded;
+    [ReadOnly] public CharacterController cc;
+    [ReadOnly] public Animator animator;
 
     public List<AbilityData> initialAbilities;
     
@@ -19,7 +20,10 @@ public class CharacterControl : MonoBehaviour
             Debug.LogWarning("CharacterControl ] AbilityControl 없음");
 
         if (TryGetComponent(out cc) == false)
-            Debug.LogWarning("CharacterControl ] Rigidbody 없음");
+            Debug.LogWarning("CharacterControl ] CharactorControl 없음");
+        
+        if (TryGetComponent(out animator) == false)
+            Debug.LogWarning("CharacterControl ] Animator 없음");
     }
 
     void Update()
