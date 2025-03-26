@@ -9,6 +9,8 @@ public class AbilityMoveMouse : Ability<AbilityMoveMouseData>
     private Vector3[] corners;
     private int next;
     private bool isArrived = false;
+    private float currentVelocity;
+    private float hitDistance;
 
     public AbilityMoveMouse(AbilityMoveMouseData data, CharacterControl owner) : base(data, owner)
     {
@@ -44,7 +46,10 @@ public class AbilityMoveMouse : Ability<AbilityMoveMouseData>
         { 
             Ray ray = camera.ScreenPointToRay(Input.mousePosition);
             if(Physics.Raycast(ray, out var hit))
+            {
+                hitDistance = Vector3.Distance(hit.point, owner.rb.position);
                 SetDestination(hit.point);
+            }
 
 
         }
@@ -87,9 +92,8 @@ public class AbilityMoveMouse : Ability<AbilityMoveMouseData>
         //이동
         //50을 곱한 이유 = movePerSec와 linearVelocity 값의 범위를 맞추기 위한 상수
         Vector3 movement = direction * data.movePerSec *50f * Time.deltaTime;
-        Vector3 velocity = new Vector3(movement.x, owner.rb.linearVelocity.y, movement.z);
-
-        owner.rb.linearVelocity = velocity;
+        owner.rb.linearVelocity = movement;
+        currentVelocity = Vector3.Distance(Vector3.zero, owner.rb.linearVelocity);
 
         //도착 확인
         if (Vector3.Distance(nexttarget, owner.rb.position) <= data.stopdistance)
@@ -104,18 +108,22 @@ public class AbilityMoveMouse : Ability<AbilityMoveMouseData>
             }
         }
 
+        // run to stop 바깥 범위에 hit point를 찍을때마 실행
+
         // 최종 위치 준비 도착
-        if (Vector3.Distance(finaltarget, owner.rb.position) <= data.runtostopDistance)
-        {
-            owner.animator?.CrossFadeInFixedTime("RUNTOSTOP", 0.1f, 0, 0f); 
-        }
+        float d = Vector3.Distance(finaltarget, owner.rb.position);
+        if (hitDistance > data.runtostopDistance * 2 &&  d <= data.runtostopDistance)
+            {
+                owner.animator?.CrossFadeInFixedTime("RUNTOSTOP", 0.1f, 0, 0f); 
+            }
+
+
 
     }
 
     private void MoveAnimation()
     {
-        float a = isArrived ? 0f : data.movePerSec;
-
+        float a = isArrived ? 0f : Mathf.Clamp01( currentVelocity / data.movePerSec );
         float spd = Mathf.Lerp(owner.animator.GetFloat("moveSpeed"), a, Time.deltaTime * 10f);
         owner.animator.SetFloat("moveSpeed", spd);
     }

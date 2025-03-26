@@ -7,9 +7,7 @@ using CustomInspector;
 public class CharacterControl : MonoBehaviour
 {
     [HideInInspector]public AbilityControl ability;
-
     [ReadOnly] public bool isGrounded;
-    [ReadOnly] public bool isLanding;
     [ReadOnly] public Rigidbody rb; //-> 메인캐릭터에 사용하기 가장 좋음
     //[ReadOnly] public NavMeshAgent agent;
     //[ReadOnly] public CharacterController cc; -> 사용하고 싶은 방식으로 입력 후 레퍼런스 모두 교체
@@ -32,7 +30,6 @@ public class CharacterControl : MonoBehaviour
     void Update()
     {
         isGrounded = Physics.Raycast(transform.position + Vector3.up, Vector3.down, 1.1f);
-        isLanding = Physics.Raycast(transform.position + Vector3.up, Vector3.down, 2f);
         
         InputKeyboard();
     }

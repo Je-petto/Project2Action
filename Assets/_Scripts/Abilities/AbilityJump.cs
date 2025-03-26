@@ -18,39 +18,35 @@ public class AbilityJump : Ability<AbilityJumpData>
 
         //owner.animator?.SetTrigger("jumpUp");
 
-        owner.animator?.CrossFadeInFixedTime("JUMPUP", 0.2f, 0, 0f); //Base Layer = 0
+        owner.animator?.CrossFadeInFixedTime("JUMPUP", 0.1f, 0, 0f); //Base Layer = 0
         
     }
     public override void Deactivate()
     {
         isjumping = true;
-        elapsed = 0;
 
-        owner.animator?.CrossFadeInFixedTime("JUMPDOWN", 0.1f, 0, 0f); 
+        owner.animator?.CrossFadeInFixedTime("JUMPDOWN", 0.02f, 0, 0f); 
     }
 
     float elapsed;
-    public override void Update()
+    public override void FixedUpdate()
     {
         if (owner.rb == null || isjumping == false)
             return;
  
         elapsed += Time.deltaTime;
 
-        float t = elapsed / data.jumpDuration;
-        //500을 곱한 이유 = jumpForce와 linearVelocity 값의 범위를 맞추기 위한 상수
-        float height = data.jumpCurve.Evaluate(t) * data.jumpForce * 500f;
+        float t = Mathf.Clamp01( elapsed / data.jumpDuration );
 
         //owner.agent.Move(Vector3.up * height * Time.deltaTime);
         Vector3 velocity = owner.rb.linearVelocity;
-        velocity.y = height * Time.deltaTime;
+        velocity.y = data.jumpCurve.Evaluate(t) * data.jumpForce;
         owner.rb.linearVelocity = velocity;
 
         // 점프 시간 종료
-        if (elapsed > 0.2f && owner.isLanding)
-        {
+        if (t > 0.3f && owner.isGrounded)
             owner.ability.Deactivate(data.Flag);
-        }
+
     }
 
 }
