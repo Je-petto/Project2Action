@@ -23,7 +23,7 @@ public class AbilityJump : Ability<AbilityJumpData>
     }
     public override void Deactivate()
     {
-        isjumping = true;
+        isjumping = false;
 
         owner.animator?.CrossFadeInFixedTime("JUMPDOWN", 0.02f, 0, 0f); 
     }
