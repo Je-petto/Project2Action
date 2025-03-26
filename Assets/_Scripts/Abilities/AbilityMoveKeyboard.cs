@@ -17,9 +17,14 @@ public class AbilityMoveKeyboard : Ability<AbilityMoveKeyboardData>
 
     }
 
-    public override void FixedUpdate()
+    public override void Update()
     {
         InputKeyboard();
+    }
+
+    public override void FixedUpdate()
+    {
+
         Rotate();
         Movement();
     }
@@ -43,12 +48,17 @@ public class AbilityMoveKeyboard : Ability<AbilityMoveKeyboardData>
 
     void Movement()
     {
-        owner.cc.Move(direction * data.movePerSec * Time.deltaTime);
+        //owner.agent.Move(direction * data.movePerSec * Time.deltaTime);
+        //50을 곱한 이유 = movePerSec와 linearVelocity 값의 범위를 맞추기 위한 상수
+        Vector3 movement = direction * data.movePerSec * 50f * Time.deltaTime;
+        Vector3 velocity = new Vector3(movement.x, owner.rb.linearVelocity.y, movement.z);
+
+        owner.rb.linearVelocity = velocity;
 
         if (owner.isGrounded ==true)
         {
-            float velocity = Vector3.Distance(Vector3.zero, owner.cc.velocity);
-            float targetspeed = Mathf.Clamp01(velocity / data.movePerSec);
+            float v = Vector3.Distance(Vector3.zero, owner.rb.linearVelocity);
+            float targetspeed = Mathf.Clamp01(v / data.movePerSec);
             float movespd = Mathf.Lerp(owner.animator.GetFloat("moveSpeed"), targetspeed, Time.deltaTime * 18f);
 
             owner.animator?.SetFloat("moveSpeed", movespd);

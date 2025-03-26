@@ -445,7 +445,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.1
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 73bed9eb0b768ce4590b54173d272faf, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: a3a1574a6835a794a9ae515a8b80080a, type: 2}
   m_BuildHeightMesh: 0
 --- !u!1 &444990793
 GameObject:
@@ -514,7 +514,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializedBakingSet: {fileID: 11400000, guid: bdc294538c9042946bfa51b606ec9fa8, type: 2}
-  sceneGUID: 1390bf99aeb044649ab42a2f4b2cb086
+  sceneGUID: 05331c41d1dec3c44a6e9b1218ebc1aa
   obsoleteAsset: {fileID: 0}
   obsoleteCellSharedDataAsset: {fileID: 0}
   obsoleteCellSupportDataAsset: {fileID: 0}
@@ -2138,8 +2138,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7128164029044934347}
+  - component: {fileID: 7338793093672382654}
   - component: {fileID: 7338793093672382653}
-  - component: {fileID: 9167256129226898607}
   - component: {fileID: 6972988203571818962}
   - component: {fileID: 4744491895921124688}
   m_Layer: 0
@@ -5802,7 +5802,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ability: {fileID: 0}
   isGrounded: 0
-  cc: {fileID: 0}
+  isLanding: 0
+  rb: {fileID: 0}
   animator: {fileID: 0}
   initialAbilities:
   - {fileID: 11400000, guid: be60fd9100f48d44cbde8fa3a8860b2c, type: 2}
@@ -5865,6 +5866,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8060163015184314748}
+  - component: {fileID: 8060163015184314749}
   m_Layer: 0
   m_Name: Collision
   m_TagString: Untagged
@@ -6004,6 +6006,33 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!54 &7338793093672382654
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 70271631641880299}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 500
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 80
+  m_CollisionDetection: 0
 --- !u!4 &7383283491458926603
 Transform:
   m_ObjectHideFlags: 0
@@ -6371,6 +6400,29 @@ Transform:
   - {fileID: 3934481872361763680}
   m_Father: {fileID: 7128164029044934347}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &8060163015184314749
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7136848231052571721}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.25
+  m_Height: 1.8
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.9, z: 0}
 --- !u!4 &8101387783785237902
 Transform:
   m_ObjectHideFlags: 0
@@ -6605,7 +6657,7 @@ Transform:
   m_GameObject: {fileID: 4953431639748370465}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.35, z: 0}
+  m_LocalPosition: {x: 0, y: 0.15, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6834,31 +6886,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!143 &9167256129226898607
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 70271631641880299}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Height: 1.7
-  m_Radius: 0.25
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.87, z: 0}
 --- !u!1 &9170363610054910240
 GameObject:
   m_ObjectHideFlags: 0

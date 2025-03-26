@@ -8,6 +8,8 @@ public class AbilityMoveKeyboardData : AbilityData
     public override Ability CreateAbility(CharacterControl owner) => new AbilityMoveKeyboard(this, owner);
     public float movePerSec = 5f;
     public float rotatePerSec = 1080f;
+    public float runtostopdistance = 1f;
+
 
 }
 

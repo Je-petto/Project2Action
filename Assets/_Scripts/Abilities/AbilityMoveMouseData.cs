@@ -8,6 +8,10 @@ public class AbilityMoveMouseData : AbilityData
     public override Ability CreateAbility(CharacterControl owner) => new AbilityMoveMouse(this, owner);
     public float movePerSec = 5f;
     public float rotatePerSec = 1080f;
+    public float stopdistance = 0.5f;
+    public float runtostopDistance = 1f;
+
+
 
 }
 
