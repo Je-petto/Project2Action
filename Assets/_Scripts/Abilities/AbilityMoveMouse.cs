@@ -8,17 +8,15 @@ public class AbilityMoveMouse : Ability<AbilityMoveMouseData>
     private NavMeshPath path;
     private Vector3[] corners;
     private int next;
-    private bool isArrived = false;
     private float currentVelocity;
     private float hitDistance;
-
     private ParticleSystem marker;
 
     public AbilityMoveMouse(AbilityMoveMouseData data, CharacterControl owner) : base(data, owner)
     {
         camera = Camera.main;
         path = new NavMeshPath();
-        isArrived = true;
+        owner.isArrived = true;
 
         marker = GameObject.Instantiate(data.marker).GetComponent<ParticleSystem>();
         if(marker == null)
@@ -71,14 +69,14 @@ public class AbilityMoveMouse : Ability<AbilityMoveMouseData>
         
         corners = path.corners;
         next = 1;
-        isArrived = false;
+        owner.isArrived = false;
     }
 
 
     Quaternion _lookrot;
     private void FollowPath()
     {
-        if( corners == null || corners.Length <= 0 || isArrived == true)
+        if( corners == null || corners.Length <= 0 || owner.isArrived == true)
             return;
         
         // 다음 위치
@@ -109,7 +107,7 @@ public class AbilityMoveMouse : Ability<AbilityMoveMouseData>
             //최종 목적지
             if ( next >= corners.Length )
             {
-                isArrived = true;
+                owner.isArrived = true;
                 owner.rb.linearVelocity = Vector3.zero;
             }
         }
@@ -129,7 +127,7 @@ public class AbilityMoveMouse : Ability<AbilityMoveMouseData>
 
     private void MoveAnimation()
     {
-        float a = isArrived ? 0f : Mathf.Clamp01( currentVelocity / data.movePerSec );
+        float a = owner.isArrived ? 0f : Mathf.Clamp01( currentVelocity / data.movePerSec );
         float spd = Mathf.Lerp(owner.animator.GetFloat("moveSpeed"), a, Time.deltaTime * 10f);
         owner.animator.SetFloat("moveSpeed", spd);
     }

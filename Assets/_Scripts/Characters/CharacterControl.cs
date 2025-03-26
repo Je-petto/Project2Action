@@ -8,6 +8,8 @@ public class CharacterControl : MonoBehaviour
 {
     [HideInInspector]public AbilityControl ability;
     [ReadOnly] public bool isGrounded;
+    [ReadOnly] public bool isArrived = true;
+
     [ReadOnly] public Rigidbody rb; //-> 메인캐릭터에 사용하기 가장 좋음
     //[ReadOnly] public NavMeshAgent agent;
     //[ReadOnly] public CharacterController cc; -> 사용하고 싶은 방식으로 입력 후 레퍼런스 모두 교체
