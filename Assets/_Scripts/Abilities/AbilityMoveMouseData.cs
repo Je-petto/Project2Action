@@ -11,6 +11,8 @@ public class AbilityMoveMouseData : AbilityData
     public float stopdistance = 0.5f;
     public float runtostopDistance = 1f;
 
+    [Space(20)]
+    public ParticleSystem marker; //3d picking(피킹) 마커 오브젝트
 
 
 }

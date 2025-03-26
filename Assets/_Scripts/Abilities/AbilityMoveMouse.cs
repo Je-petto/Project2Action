@@ -12,12 +12,19 @@ public class AbilityMoveMouse : Ability<AbilityMoveMouseData>
     private float currentVelocity;
     private float hitDistance;
 
+    private ParticleSystem marker;
+
     public AbilityMoveMouse(AbilityMoveMouseData data, CharacterControl owner) : base(data, owner)
     {
         camera = Camera.main;
         path = new NavMeshPath();
-
         isArrived = true;
+
+        marker = GameObject.Instantiate(data.marker).GetComponent<ParticleSystem>();
+        if(marker == null)
+            Debug.LogWarning("AbilityMoveMouse ] Marker - ParticleSystem 없음");
+
+        marker.gameObject.SetActive(false);
 
     }
 
@@ -36,7 +43,6 @@ public class AbilityMoveMouse : Ability<AbilityMoveMouseData>
             return;
 
         FollowPath();
-
     }
 
     private void InputMouse()
@@ -47,11 +53,13 @@ public class AbilityMoveMouse : Ability<AbilityMoveMouseData>
             Ray ray = camera.ScreenPointToRay(Input.mousePosition);
             if(Physics.Raycast(ray, out var hit))
             {
+                marker.gameObject.SetActive(true);
+                marker.transform.position = hit.point + Vector3.up * 0.1f;
+                marker.Play();
+
                 hitDistance = Vector3.Distance(hit.point, owner.rb.position);
                 SetDestination(hit.point);
             }
-
-
         }
     }
 
@@ -64,8 +72,6 @@ public class AbilityMoveMouse : Ability<AbilityMoveMouseData>
         corners = path.corners;
         next = 1;
         isArrived = false;
-
-
     }
 
 
